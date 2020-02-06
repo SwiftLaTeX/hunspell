@@ -651,7 +651,7 @@ void pipe_interface(Hunspell** pMS, int format, FILE* fileid, char* filename) {
   int pos;
   int bad;
   int lineno = 0;
-  int terse_mode = 0;
+  int terse_mode = 1;
   int verbose_mode = 0;
   int d = 0;
   char* odftmpdir = NULL;
@@ -707,7 +707,6 @@ void pipe_interface(Hunspell** pMS, int format, FILE* fileid, char* filename) {
     fprintf(stdout, "\n");
     fflush(stdout);
   }
-
 nextline:
   while (fgets(buf, MAXLNLEN, fileid)) {
     buf[strcspn(buf, "\n")] = 0;
@@ -931,14 +930,14 @@ nextline:
               std::vector<std::string> wlst =
                 pMS[d]->suggest(chenc(token, io_enc, dic_enc[d]));
               if (wlst.empty()) {
-                fprintf(stdout, "# %s %d", token.c_str(), char_offset);
+                fprintf(stdout, "# %s %d %d: No2Suggestion", token.c_str(), lineno, char_offset);
               } else {
-                fprintf(stdout, "& %s %u %d: ", token.c_str(), static_cast<unsigned int>(wlst.size()), char_offset);
+                fprintf(stdout, "& %s %u %d: ", token.c_str(), lineno, char_offset);
                 fprintf(stdout, "%s", chenc(wlst[0], dic_enc[d], io_enc).c_str());
               }
-              for (size_t j = 1; j < wlst.size(); ++j) {
-                  fprintf(stdout, ", %s", chenc(wlst[j], dic_enc[d], io_enc).c_str());
-              }
+              // for (size_t j = 1; j < wlst.size(); ++j) {
+              //     fprintf(stdout, ", %s", chenc(wlst[j], dic_enc[d], io_enc).c_str());
+              // }
               fprintf(stdout, "\n");
               fflush(stdout);
             }
