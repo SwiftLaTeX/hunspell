@@ -930,7 +930,7 @@ nextline:
               std::vector<std::string> wlst =
                 pMS[d]->suggest(chenc(token, io_enc, dic_enc[d]));
               if (wlst.empty()) {
-                fprintf(stdout, "# %s %d %d: No2Suggestion", token.c_str(), lineno, char_offset);
+                fprintf(stdout, "# %s %d %d: NoSuggestion", token.c_str(), lineno, char_offset);
               } else {
                 fprintf(stdout, "& %s %u %d: ", token.c_str(), lineno, char_offset);
                 fprintf(stdout, "%s", chenc(wlst[0], dic_enc[d], io_enc).c_str());
